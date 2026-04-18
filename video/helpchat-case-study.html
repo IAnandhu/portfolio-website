@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helpchat Case Study — Anandu Sivan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080808;
+      --bg-elevated: #111111;
+      --bg-card:     #141414;
+      --text:        #F2F2F2;
+      --text-muted:  #888888;
+      --text-dim:    #444444;
+      --accent:      #E8000D;
+      --border:      #1C1C1C;
+      --font-display:'Bebas Neue', sans-serif;
+      --font-body:   'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 32px; height: 32px; background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px; color: #fff;
+      border-radius: 0;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: 0.1em; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-back::before { content: '←'; transition: transform 0.2s; }
+    .nav-back:hover::before { transform: translateX(-4px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1600&q=80') center / cover;
+      filter: grayscale(40%) brightness(0.35);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #080808 30%, rgba(8,8,8,0.4) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 60px;
+      max-width: 1100px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      font-family: var(--font-display);
+      font-size: 13px; letter-spacing: 0.2em;
+      color: var(--accent); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 10vw, 130px);
+      line-height: 0.88; letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-desc {
+      font-size: 17px; font-weight: 300; color: var(--text-muted);
+      max-width: 560px; line-height: 1.8; margin-bottom: 40px;
+    }
+    .hero-meta {
+      display: flex; gap: 48px; flex-wrap: wrap;
+    }
+    .hero-meta-item h5 {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
+    }
+    .hero-meta-item p {
+      font-family: var(--font-display); font-size: 18px;
+      letter-spacing: 0.05em; color: var(--text);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 0; }
+    section:nth-child(even) { background: var(--bg-elevated); }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      letter-spacing: 0.02em; line-height: 1.0;
+      margin-bottom: 32px;
+    }
+    .section-body {
+      font-size: 16px; font-weight: 300; color: var(--text-muted);
+      line-height: 1.85; max-width: 680px;
+    }
+    .section-body strong { color: var(--text); font-weight: 600; }
+    .section-body p { margin-bottom: 20px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── TWO COL ── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start;
+    }
+    .two-col-reverse { direction: rtl; }
+    .two-col-reverse > * { direction: ltr; }
+
+    /* ── IMAGE BLOCK ── */
+    .img-block {
+      position: relative; border-radius: 5px; overflow: hidden;
+    }
+    .img-block img {
+      width: 100%; display: block;
+      filter: grayscale(20%) contrast(1.05);
+      transition: filter 0.4s ease;
+    }
+    .img-block:hover img { filter: grayscale(0%); }
+    .img-block-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%);
+      padding: 20px; font-size: 12px; letter-spacing: 0.08em;
+      color: var(--text-muted); text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ── FULL IMAGE ── */
+    .full-img {
+      width: 100%; border-radius: 5px; overflow: hidden;
+      margin: 0 0 4px;
+    }
+    .full-img img {
+      width: 100%; display: block;
+      filter: grayscale(20%);
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2px; margin-top: 56px;
+    }
+    .step {
+      background: var(--bg-card); padding: 36px 28px;
+      border-radius: 5px; position: relative;
+      transition: background 0.25s;
+    }
+    .step:hover { background: #1a1a1a; }
+    .step-num {
+      font-family: var(--font-display); font-size: 56px;
+      color: var(--border); line-height: 1; margin-bottom: 16px;
+      transition: color 0.25s;
+    }
+    .step:hover .step-num { color: rgba(232,0,13,0.25); }
+    .step h4 {
+      font-family: var(--font-display); font-size: 20px;
+      letter-spacing: 0.05em; margin-bottom: 10px;
+    }
+    .step p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .step-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .step:hover .step-bar { transform: scaleX(1); }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 56px;
+    }
+    .stat-box {
+      background: var(--bg-card); padding: 40px 32px;
+      border-radius: 5px; text-align: center;
+    }
+    .stat-box-num {
+      font-family: var(--font-display); font-size: 64px;
+      color: var(--text); line-height: 1; margin-bottom: 8px;
+    }
+    .stat-box-num span { color: var(--accent); }
+    .stat-box-label {
+      font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* ── QUOTE BLOCK ── */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 32px 40px;
+      background: var(--bg-card);
+      border-radius: 0 5px 5px 0;
+      margin: 48px 0;
+    }
+    .quote-block blockquote {
+      font-size: 20px; font-style: italic;
+      color: var(--text); line-height: 1.7; margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .quote-block cite {
+      font-size: 13px; color: var(--text-muted);
+      font-style: normal; letter-spacing: 0.06em;
+    }
+
+    /* ── OUTCOME BANNER ── */
+    .outcome-banner {
+      background: var(--accent);
+      padding: 64px 60px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .outcome-banner h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      color: #fff; line-height: 1.0; letter-spacing: 0.02em;
+    }
+    .outcome-banner p {
+      font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.8);
+      max-width: 400px; line-height: 1.75;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    footer .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+    .footer-copy span { color: var(--accent); }
+    .footer-cta {
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: 0.1em; color: var(--accent);
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .footer-cta:hover { opacity: 0.7; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .container { padding: 0 32px; }
+      .hero-content { padding: 0 32px; }
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .outcome-banner { padding: 48px 32px; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 20px 24px; }
+      .container { padding: 0 24px; }
+      .hero-content { padding: 0 24px; }
+      section { padding: 72px 0; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="mockup.html" class="nav-logo">
+      <div class="nav-logo-mark">AS</div>
+    </a>
+    <a href="mockup.html#work" class="nav-back">Back to Work</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content reveal">
+      <p class="hero-tag">Case Study · Mobile Product App</p>
+      <h1 class="hero-title">HELP<span>CHAT</span></h1>
+      <p class="hero-desc">One app to replace them all. Helpchat was built to help people get more things done — restoring balance in the battle between people and tasks.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <h5>My Role</h5>
+          <p>UX & Brand Lead</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Launched</h5>
+          <p>September 2015</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Platform</h5>
+          <p>iOS & Android</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Outcome</h5>
+          <p>Acquired by Amazon</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">01 · Problem Statement</p>
+          <h2 class="section-title">Too Many Apps. Not Enough Done.</h2>
+          <div class="section-body">
+            <p>Users were keeping <strong>dozens of individual apps</strong> on their devices — one for each task, service, or need. The result: overloaded phones, fragmented experiences, and daily frustration.</p>
+            <p>Helpchat was designed to solve this. One powerful app that brings tasks, services, and assistance together — <strong>less clutter, more done</strong>.</p>
+            <p>The target audience: <strong>15 to 40-year-olds</strong> who rely on their smartphones for daily tasks and are comfortable in the digital world. People who want their phone to work for them, not against them.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80" alt="Mobile app problem" />
+          <div class="img-block-caption">The fragmented app experience users were stuck with</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLE -->
+  <section id="role">
+    <div class="container reveal">
+      <p class="section-label">02 · The Task</p>
+      <h2 class="section-title">What I Was Brought In to Do</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Branding & Design System</h4>
+          <p>Created the complete brand identity and a scalable design system — from atom-level components to full modular page structures.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>User Research</h4>
+          <p>Led user research workshops including real user interviews, storyboarding sessions, and usability testing with tappable prototypes.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Demo-First Prototyping</h4>
+          <p>Built interactive prototypes early, shared on real devices, allowing users to experience the app before a line of code was committed.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Design–Dev Bridge</h4>
+          <p>Maintained alignment between design and development, providing pixel-perfect guidelines to ensure an accurate build across all platforms.</p>
+          <div class="step-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section id="discovery">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80" alt="Discovery phase" />
+          <div class="img-block-caption">Discovery and strategy mapping</div>
+        </div>
+        <div>
+          <p class="section-label">03 · Discovery Phase</p>
+          <h2 class="section-title">Starting With Deep Thinking</h2>
+          <div class="section-body">
+            <p>The process started with a structured discovery phase: identifying the <strong>unique business value</strong>, mapping product features, defining customer archetypes, and studying the product funnel.</p>
+            <p>I studied best-in-class experiences in the space and used those learnings to craft a <strong>UX strategy</strong> that balanced business needs with what customers actually wanted.</p>
+            <p>This wasn't about copying what worked elsewhere. It was about understanding what this specific user group needed — and designing toward that.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORYBOARDING -->
+  <section id="storyboarding">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">04 · Storyboarding & User Flows</p>
+          <h2 class="section-title">Mapping Every User Journey</h2>
+          <div class="section-body">
+            <p>Storyboards were created for every scenario we expected users to travel through — exploring what features they needed, and where the pain points appeared.</p>
+            <p><strong>Why storyboards?</strong> They gave us a real-time picture of user scenarios before investing in high-fidelity design. Problems were found and fixed in minutes, not days.</p>
+            <p>Hand-drawn sketches were used for both user testing and stakeholder presentations. Fast to produce, fast to change, and powerful enough to validate ideas with real users immediately.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="inspiration/discovery-phase.png" alt="Storyboarding" />
+          <div class="img-block-caption">Hand-drawn storyboards for rapid user testing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEMO FIRST -->
+  <section id="demo">
+    <div class="container reveal">
+      <p class="section-label">05 · Demo-First Approach</p>
+      <h2 class="section-title">Let Users Experience It Before It Was Built</h2>
+      <div class="two-col" style="margin-top: 40px;">
+        <div class="section-body">
+          <p>One of the most important strategic decisions: <strong>ship a real demo early</strong>. Not a presentation deck. Not a video. A touchable prototype on users' own devices.</p>
+          <p>This allowed fans to experience the app risk-free — understanding the product, offering, and benefits first-hand. It drove sign-ups, extended daily engagement, and gave us <strong>real feedback loops</strong> before launch.</p>
+        </div>
+        <div class="section-body">
+          <p>The prototype was also used with investors and boards. Putting the experience directly in their hands — not on a slide — made the difference.</p>
+          <p>This approach <strong>secured the funding</strong> needed to continue development and bring the product to market.</p>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top: 48px;">
+        <blockquote>"We wanted to get the app into the public as soon as possible so we could learn, get feedback, and act on it. The demo-first approach wasn't just a design decision — it was a business strategy."</blockquote>
+        <cite>— Anandu Sivan, UX & Brand Lead</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRAND IDENTITY -->
+  <section id="brand">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-label">06 · Brand Identity & Design System</p>
+        <h2 class="section-title">Building the Foundation</h2>
+      </div>
+      <div class="full-img reveal" style="margin: 40px 0 48px;">
+        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1400&q=80" alt="Design system" />
+      </div>
+      <div class="two-col reveal">
+        <div class="section-body">
+          <p>I established a complete library of design elements that formed the basis of Helpchat's design system — usable throughout the product to rapidly create screens and build content.</p>
+          <p>From <strong>modular components</strong> to atom-level design elements, the system was built to support both the engineering team and future designers joining the project.</p>
+        </div>
+        <div class="section-body">
+          <p>Pixel-perfect guidelines were provided to developers to ensure design accuracy across all platforms. No interpretation. No drift.</p>
+          <p>I also created a <strong>bespoke illustration style</strong> that ran consistently across the entire app — a visual language that could be followed by other creatives in the company.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ILLUSTRATION -->
+  <section id="illustration">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="inspiration/full-preview.png" alt="Illustration style" />
+          <div class="img-block-caption">Custom illustration style created for Helpchat</div>
+        </div>
+        <div>
+          <p class="section-label">07 · Illustration Style</p>
+          <h2 class="section-title">A Visual Language Built to Scale</h2>
+          <div class="section-body">
+            <p>Helpchat needed a consistent, ownable visual identity — something that could be maintained and extended as the team grew.</p>
+            <p>I designed a custom <strong>illustration style</strong> that ran throughout the app. Clear enough to follow. Distinctive enough to own. Scalable enough to hand off.</p>
+            <p>Every illustrative element was documented so that any creative joining the team could produce work that felt native to the brand without starting from scratch.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOME -->
+  <section id="outcome">
+    <div class="container reveal">
+      <p class="section-label">08 · Final Outcome</p>
+      <h2 class="section-title">Launch &amp; Amazon Acquisition</h2>
+      <div class="section-body" style="margin-bottom: 48px;">
+        <p>The app launched in <strong>September 2015</strong>. Download numbers surged from day one. Real users gave real feedback — and the team used every piece of it.</p>
+        <p>Product reviews and interviews were carried out each weekend using tappable prototypes with real users. This wasn't a one-time research sprint. It was a continuous feedback loop built into the product culture.</p>
+        <p>After <strong>18 months of successful release</strong>, Helpchat was acquired by Amazon for an undisclosed fee.</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-box-num">2015</div>
+          <div class="stat-box-label">Launch Year</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">18<span>mo</span></div>
+          <div class="stat-box-label">Time to Acquisition</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num"><span>↑</span></div>
+          <div class="stat-box-label">Acquired by Amazon</div>
+        </div>
+      </div>
+      <div style="margin-top: 64px;">
+        <div class="outcome-banner">
+          <h2>ACQUIRED BY<br>AMAZON</h2>
+          <p>After 18 months of successful release, continuous user research, and a product built on real feedback — Helpchat was acquired by Amazon for an undisclosed fee.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEXT -->
+  <section id="next" style="background: var(--bg); padding: 80px 0;">
+    <div class="container reveal" style="text-align: center;">
+      <p class="section-label" style="justify-content: center;">What's Next</p>
+      <h2 class="section-title" style="margin-bottom: 16px;">Want to Work Together?</h2>
+      <p style="color: var(--text-muted); font-size: 16px; font-weight: 300; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;">
+        If you're building a product and need a designer who starts with the problem, not the pixels — let's talk.
+      </p>
+      <a href="mockup.html#contact" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 36px; background: var(--accent); color: #fff;
+        font-family: var(--font-display); font-size: 16px; letter-spacing: 0.12em;
+        text-decoration: none; border-radius: 5px;
+        box-shadow: 0 0 24px rgba(232,0,13,0.35);
+        transition: all 0.25s ease;
+      ">Book a Free Call →</a>
+      <br />
+      <span style="font-size: 12px; color: var(--text-muted); margin-top: 14px; display: block;">
+        No commitment &nbsp;·&nbsp; Free first conversation &nbsp;·&nbsp; 24hr response
+      </span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p class="footer-copy">© 2026 <span>Anandu Sivan</span>. All rights reserved.</p>
+      <a href="mockup.html#work" class="footer-cta">← Back to All Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+          let delay = 0;
+          siblings.forEach((el, idx) => { if (el === entry.target) delay = idx * 80; });
+          setTimeout(() => entry.target.classList.add('visible'), delay);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      reveals.forEach(el => el.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>

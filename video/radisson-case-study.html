@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radisson Hotel Group Case Study — Anandu Sivan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080808;
+      --bg-elevated: #111111;
+      --bg-card:     #141414;
+      --text:        #F2F2F2;
+      --text-muted:  #888888;
+      --text-dim:    #444444;
+      --accent:      #E8000D;
+      --border:      #1C1C1C;
+      --font-display:'Bebas Neue', sans-serif;
+      --font-body:   'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo-mark {
+      width: 32px; height: 32px; background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px; color: #fff;
+      border-radius: 0;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: 0.1em; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-back::before { content: '←'; transition: transform 0.2s; }
+    .nav-back:hover::before { transform: translateX(-4px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80') center / cover;
+      filter: grayscale(40%) brightness(0.3);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #080808 30%, rgba(8,8,8,0.4) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 60px;
+      max-width: 1100px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      font-family: var(--font-display);
+      font-size: 13px; letter-spacing: 0.2em;
+      color: var(--accent); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 10vw, 130px);
+      line-height: 0.88; letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-desc {
+      font-size: 17px; font-weight: 300; color: var(--text-muted);
+      max-width: 560px; line-height: 1.8; margin-bottom: 40px;
+    }
+    .hero-meta {
+      display: flex; gap: 48px; flex-wrap: wrap;
+    }
+    .hero-meta-item h5 {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
+    }
+    .hero-meta-item p {
+      font-family: var(--font-display); font-size: 18px;
+      letter-spacing: 0.05em; color: var(--text);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 0; }
+    section:nth-child(even) { background: var(--bg-elevated); }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      letter-spacing: 0.02em; line-height: 1.0;
+      margin-bottom: 32px;
+    }
+    .section-body {
+      font-size: 16px; font-weight: 300; color: var(--text-muted);
+      line-height: 1.85; max-width: 680px;
+    }
+    .section-body strong { color: var(--text); font-weight: 600; }
+    .section-body p { margin-bottom: 20px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── TWO COL ── */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start;
+    }
+    .two-col-reverse { direction: rtl; }
+    .two-col-reverse > * { direction: ltr; }
+
+    /* ── IMAGE BLOCK ── */
+    .img-block {
+      position: relative; border-radius: 5px; overflow: hidden;
+    }
+    .img-block img {
+      width: 100%; display: block;
+      filter: grayscale(20%) contrast(1.05);
+      transition: filter 0.4s ease;
+    }
+    .img-block:hover img { filter: grayscale(0%); }
+    .img-block-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%);
+      padding: 20px; font-size: 12px; letter-spacing: 0.08em;
+      color: var(--text-muted); text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ── FULL IMAGE ── */
+    .full-img {
+      width: 100%; border-radius: 5px; overflow: hidden;
+      margin: 0 0 4px;
+    }
+    .full-img img {
+      width: 100%; display: block;
+      filter: grayscale(20%);
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2px; margin-top: 56px;
+    }
+    .step {
+      background: var(--bg-card); padding: 36px 28px;
+      border-radius: 5px; position: relative;
+      transition: background 0.25s;
+    }
+    .step:hover { background: #1a1a1a; }
+    .step-num {
+      font-family: var(--font-display); font-size: 56px;
+      color: var(--border); line-height: 1; margin-bottom: 16px;
+      transition: color 0.25s;
+    }
+    .step:hover .step-num { color: rgba(232,0,13,0.25); }
+    .step h4 {
+      font-family: var(--font-display); font-size: 20px;
+      letter-spacing: 0.05em; margin-bottom: 10px;
+    }
+    .step p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .step-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .step:hover .step-bar { transform: scaleX(1); }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; margin-top: 56px;
+    }
+    .stat-box {
+      background: var(--bg-card); padding: 40px 32px;
+      border-radius: 5px; text-align: center;
+    }
+    .stat-box-num {
+      font-family: var(--font-display); font-size: 64px;
+      color: var(--text); line-height: 1; margin-bottom: 8px;
+    }
+    .stat-box-num span { color: var(--accent); }
+    .stat-box-label {
+      font-size: 12px; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* ── QUOTE BLOCK ── */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 32px 40px;
+      background: var(--bg-card);
+      border-radius: 0 5px 5px 0;
+      margin: 48px 0;
+    }
+    .quote-block blockquote {
+      font-size: 20px; font-style: italic;
+      color: var(--text); line-height: 1.7; margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .quote-block cite {
+      font-size: 13px; color: var(--text-muted);
+      font-style: normal; letter-spacing: 0.06em;
+    }
+
+    /* ── OUTCOME BANNER ── */
+    .outcome-banner {
+      background: var(--accent);
+      padding: 64px 60px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .outcome-banner h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      color: #fff; line-height: 1.0; letter-spacing: 0.02em;
+    }
+    .outcome-banner p {
+      font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.8);
+      max-width: 400px; line-height: 1.75;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+    }
+    footer .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+    .footer-copy span { color: var(--accent); }
+    .footer-cta {
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: 0.1em; color: var(--accent);
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .footer-cta:hover { opacity: 0.7; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .container { padding: 0 32px; }
+      .hero-content { padding: 0 32px; }
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .outcome-banner { padding: 48px 32px; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 20px 24px; }
+      .container { padding: 0 24px; }
+      .hero-content { padding: 0 24px; }
+      section { padding: 72px 0; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="mockup.html" class="nav-logo">
+      <div class="nav-logo-mark">AS</div>
+    </a>
+    <a href="mockup.html#work" class="nav-back">Back to Work</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Case Study · 02</p>
+      <h1 class="hero-title">Radisson<br /><span>Hotel Group</span></h1>
+      <p class="hero-desc">Designing an immersive AR/VR event experience for Radisson Hotel Group's first Americas Business Conference since a complete rebrand — five brands, three platforms, one night to impress.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <h5>Client</h5>
+          <p>Radisson Hotel Group</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Location</h5>
+          <p>Orlando, USA</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Platforms</h5>
+          <p>Mobile · iPad · Desktop</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Recognition</h5>
+          <p>Scotland Design Awards Finalist</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 · THE BRIEF -->
+  <section id="brief">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">01 · The Brief</p>
+          <h2 class="section-title">A Rebrand Needs a Stage</h2>
+          <div class="section-body">
+            <p>Radisson Hotel Group approached us to devise an <strong>impactful audience experience</strong> for attendees of their first US business conference since a complete rebrand of the group.</p>
+            <p>The event, held in Orlando, focused on promoting <strong>five of the group's key hotel brands</strong> to clients, developers, and staff — all in one evening. The challenge was not just to inform, but to make each brand feel viscerally real.</p>
+            <p>A static presentation wouldn't do it. The brief demanded something delegates would still be talking about weeks later.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80" alt="Radisson Hotel Group conference" />
+          <div class="img-block-caption">Americas Business Conference, Orlando</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · THE BRIEF BREAKDOWN -->
+  <section id="context">
+    <div class="container reveal">
+      <p class="section-label">02 · Context & Scope</p>
+      <h2 class="section-title">Three Products. One Event. Five Brands.</h2>
+      <div class="section-body" style="margin-bottom: 56px;">
+        <p>The brief called for three distinct interactive platforms, each reaching delegates through a different sensory channel — all designed to work in harmony across a single conference evening.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Mobile AR App</h4>
+          <p>An augmented reality app allowing users to explore digital guest-rooms at the conference and on their own devices thereafter.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>iPad Magic Door</h4>
+          <p>The Magic Door™ — AR that projects a full-scale virtual room, explorable simply by walking around while viewing through the device.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Desktop Dome</h4>
+          <p>A room-scale virtual reality lab — a dome experience giving delegates immersive first-hand access to each brand's design identity.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h4>Reality Portals™</h4>
+          <p>Two immersive Reality Portals allowing attendees to step into each brand's world and experience new design approaches directly.</p>
+          <div class="step-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · CREATIVE DISCOVERY -->
+  <section id="discovery">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80" alt="Creative discovery process" />
+          <div class="img-block-caption">Creative discovery and engagement strategy</div>
+        </div>
+        <div>
+          <p class="section-label">03 · Creative Discovery</p>
+          <h2 class="section-title">Finding the Right Format</h2>
+          <div class="section-body">
+            <p>Following a <strong>full creative discovery process</strong> with RHG, four visual engagement formats were selected to allow delegates to interact with each brand's design identity at least once during the event.</p>
+            <p>The goal was not to impress with technology for its own sake — it was to use technology as a vehicle for <strong>brand comprehension and emotional connection</strong>. Each format was chosen because it could communicate something specific that a screen or brochure simply could not.</p>
+            <p>We studied how delegates move through conference spaces, where attention peaks and drops, and how to sequence touchpoints so every attendee encountered at least one moment that stopped them.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · USER FLOW -->
+  <section id="userflow">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">04 · User Flow & Wireframing</p>
+          <h2 class="section-title">Mapping the Delegate Journey</h2>
+          <div class="section-body">
+            <p>Before any interaction was designed, we mapped the complete delegate journey across all three platforms — from first contact at the entrance to the final dome experience.</p>
+            <p>Wireframes were submitted to the client after user flow sign-off. <strong>Stakeholder feedback shaped every iteration</strong> — features were added and removed based on what RHG's team needed the experience to communicate, not just what was technically possible.</p>
+            <p>This iterative process ensured that by the time we moved to build, there were no surprises — for us, or for the client.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1558403194-611308249627?w=800&q=80" alt="User flow and wireframing" />
+          <div class="img-block-caption">Delegate journey mapping and wireframe iteration</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · MAGIC DOOR -->
+  <section id="magicdoor">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&q=80" alt="Magic Door AR experience" />
+          <div class="img-block-caption">The Magic Door™ — AR room exploration via iPad</div>
+        </div>
+        <div>
+          <p class="section-label">05 · The Magic Door™</p>
+          <h2 class="section-title">Walking Into a Hotel Room That Isn't There</h2>
+          <div class="section-body">
+            <p>The Magic Door™ feature is a form of augmented reality that allows viewers to <strong>project a full-scale virtual representation of a room</strong> that can be explored simply by walking around while viewing through a mobile device.</p>
+            <p>This wasn't a passive experience. Delegates could physically step around furniture, look at finishes, and feel the proportions of a room — all without that room existing anywhere nearby.</p>
+            <p>For a hotel brand trying to convey a new design philosophy, this was transformative. Words describe a room. The Magic Door™ put delegates inside one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · AR MOBILE APP -->
+  <section id="mobile">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">06 · AR Mobile App</p>
+          <h2 class="section-title">Brand Identity in Your Pocket</h2>
+          <div class="section-body">
+            <p>Two augmented reality mobile apps were created using the latest AR innovation, allowing users to <strong>explore digital guest-rooms</strong> both at the conference and on their own devices afterwards.</p>
+            <p>This was deliberately designed to extend the experience beyond the event itself — delegates leaving Orlando could continue exploring each brand's design identity on their own time, sharing with colleagues, stakeholders, and clients.</p>
+            <p>The apps enabled seamless access to the full suite of CGI created for the project, combining the conference experience with something delegates could carry home.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80" alt="AR mobile application" />
+          <div class="img-block-caption">AR mobile app — explore brand rooms anywhere</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · FINAL OUTCOME -->
+  <section id="outcome">
+    <div class="container reveal">
+      <p class="section-label">07 · Final Outcome</p>
+      <h2 class="section-title">A Night Nobody Forgot</h2>
+      <div class="section-body" style="margin-bottom: 48px;">
+        <p>Each interactive platform generated <strong>substantial excitement and engagement</strong> among attendees and was extremely well received across all delegate segments — clients, developers, and staff alike.</p>
+        <p>The technology used to depict new design concepts was also successful in maintaining a <strong>high level of engagement</strong> and communicating key brand information throughout the event — not just novelty, but genuine comprehension.</p>
+        <p>The project was subsequently entered into the <strong>Scotland Design Awards</strong> as a finalist — recognition that the work met a standard beyond the event room.</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-box-num">5</div>
+          <div class="stat-box-label">Hotel brands showcased</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">3</div>
+          <div class="stat-box-label">Interactive platforms built</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num"><span>★</span></div>
+          <div class="stat-box-label">Scotland Design Awards Finalist</div>
+        </div>
+      </div>
+
+      <div class="quote-block" style="margin-top: 64px;">
+        <blockquote>"The entire VR experience and especially the white room was a huge success, everyone is still raving about it. You all played a big part in making our event one that will be remembered!"</blockquote>
+        <cite>— Radisson Hotel Group</cite>
+      </div>
+
+      <div class="outcome-banner" style="margin-top: 64px;">
+        <h2>Scotland Design Awards Finalist</h2>
+        <p>Recognised for exceptional experience design at a national level — work that demonstrated how technology and design strategy can align to create genuine human impact.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="next" style="background: var(--bg); padding: 80px 0;">
+    <div class="container reveal" style="text-align: center;">
+      <p class="section-label" style="justify-content: center;">What's Next</p>
+      <h2 class="section-title" style="margin-bottom: 16px;">Want to Work Together?</h2>
+      <p style="color: var(--text-muted); font-size: 16px; font-weight: 300; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;">
+        If you have a product, an event, or an experience that needs to leave a lasting impression — let's talk.
+      </p>
+      <a href="mockup.html#contact" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--accent); color: #fff;
+        font-family: var(--font-display); font-size: 16px;
+        letter-spacing: 0.12em; padding: 16px 40px;
+        text-decoration: none; border-radius: 5px;
+        transition: background 0.25s;
+      ">Get in Touch</a>
+      <span style="font-size: 12px; color: var(--text-muted); margin-top: 14px; display: block;">No commitment · Free first conversation · 24hr response</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-copy">© 2024 <span>Anandu Sivan</span> — Interaction & UX Designer</p>
+      <a href="mockup.html#work" class="footer-cta">← Back to Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

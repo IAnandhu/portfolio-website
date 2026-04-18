@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ami Case Study — Anandu Sivan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #080808;
+      --bg-elevated: #111111;
+      --bg-card:     #141414;
+      --text:        #F2F2F2;
+      --text-muted:  #888888;
+      --text-dim:    #444444;
+      --accent:      #E8000D;
+      --border:      #1C1C1C;
+      --font-display:'Bebas Neue', sans-serif;
+      --font-body:   'Outfit', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent); color: #fff; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 60px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 48px;
+      background: linear-gradient(to bottom, rgba(8,8,8,0.95) 0%, transparent 100%);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-mark {
+      width: 32px; height: 32px; background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 18px; color: #fff;
+      border-radius: 0;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: 0.1em; color: var(--text-muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+    .nav-back::before { content: '←'; transition: transform 0.2s; }
+    .nav-back:hover::before { transform: translateX(-4px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-bottom: 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80') center / cover;
+      filter: grayscale(40%) brightness(0.2);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, #080808 30%, rgba(8,8,8,0.5) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 60px;
+      max-width: 1100px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      font-family: var(--font-display); font-size: 13px; letter-spacing: 0.2em;
+      color: var(--accent); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-tag::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(60px, 10vw, 130px);
+      line-height: 0.88; letter-spacing: 0.02em; margin-bottom: 24px;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-desc {
+      font-size: 17px; font-weight: 300; color: var(--text-muted);
+      max-width: 560px; line-height: 1.8; margin-bottom: 40px;
+    }
+    .hero-meta { display: flex; gap: 48px; flex-wrap: wrap; }
+    .hero-meta-item h5 {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px;
+    }
+    .hero-meta-item p {
+      font-family: var(--font-display); font-size: 18px;
+      letter-spacing: 0.05em; color: var(--text);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 100px 0; }
+    section:nth-child(even) { background: var(--bg-elevated); }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--accent);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+    }
+    .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      letter-spacing: 0.02em; line-height: 1.0; margin-bottom: 32px;
+    }
+    .section-body {
+      font-size: 16px; font-weight: 300; color: var(--text-muted);
+      line-height: 1.85; max-width: 680px;
+    }
+    .section-body strong { color: var(--text); font-weight: 600; }
+    .section-body p { margin-bottom: 20px; }
+    .section-body p:last-child { margin-bottom: 0; }
+
+    /* ── TWO COL ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .two-col-reverse { direction: rtl; }
+    .two-col-reverse > * { direction: ltr; }
+
+    /* ── IMAGE BLOCK ── */
+    .img-block { position: relative; border-radius: 5px; overflow: hidden; }
+    .img-block img {
+      width: 100%; display: block;
+      filter: grayscale(20%) contrast(1.05);
+      transition: filter 0.4s ease;
+    }
+    .img-block:hover img { filter: grayscale(0%); }
+    .img-block-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%);
+      padding: 20px; font-size: 12px; letter-spacing: 0.08em;
+      color: var(--text-muted); text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ── FULL IMAGE ── */
+    .full-img { width: 100%; border-radius: 5px; overflow: hidden; margin: 0 0 4px; }
+    .full-img img { width: 100%; display: block; filter: grayscale(10%); }
+
+    /* ── STEPS ── */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+    .step {
+      background: var(--bg-card); padding: 36px 28px;
+      border-radius: 5px; position: relative; transition: background 0.25s;
+    }
+    .step:hover { background: #1a1a1a; }
+    .step-num {
+      font-family: var(--font-display); font-size: 56px;
+      color: var(--border); line-height: 1; margin-bottom: 16px; transition: color 0.25s;
+    }
+    .step:hover .step-num { color: rgba(232,0,13,0.25); }
+    .step h4 { font-family: var(--font-display); font-size: 20px; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .step p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    .step-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--accent); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .step:hover .step-bar { transform: scaleX(1); }
+
+    /* ── STAT ROW ── */
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+    .stat-box { background: var(--bg-card); padding: 40px 32px; border-radius: 5px; text-align: center; }
+    .stat-box-num { font-family: var(--font-display); font-size: 64px; color: var(--text); line-height: 1; margin-bottom: 8px; }
+    .stat-box-num span { color: var(--accent); }
+    .stat-box-label { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+    /* ── QUOTE BLOCK ── */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 32px 40px; background: var(--bg-card);
+      border-radius: 0 5px 5px 0; margin: 48px 0;
+    }
+    .quote-block blockquote {
+      font-size: 20px; font-style: italic; color: var(--text);
+      line-height: 1.7; margin-bottom: 16px; font-weight: 300;
+    }
+    .quote-block cite { font-size: 13px; color: var(--text-muted); font-style: normal; letter-spacing: 0.06em; }
+
+    /* ── OUTCOME BANNER ── */
+    .outcome-banner {
+      background: var(--accent); padding: 64px 60px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .outcome-banner h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      color: #fff; line-height: 1.0; letter-spacing: 0.02em;
+    }
+    .outcome-banner p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.8); max-width: 400px; line-height: 1.75; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg-elevated); border-top: 1px solid var(--border); padding: 40px 0; }
+    footer .container { display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+    .footer-copy span { color: var(--accent); }
+    .footer-cta { font-family: var(--font-display); font-size: 15px; letter-spacing: 0.1em; color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+    .footer-cta:hover { opacity: 0.7; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .container { padding: 0 32px; }
+      .hero-content { padding: 0 32px; }
+      .two-col { grid-template-columns: 1fr; gap: 40px; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .stat-row { grid-template-columns: 1fr; }
+      .outcome-banner { padding: 48px 32px; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 20px 24px; }
+      .container { padding: 0 24px; }
+      .hero-content { padding: 0 24px; }
+      section { padding: 72px 0; }
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="mockup.html" class="nav-logo">
+      <div class="nav-logo-mark">AS</div>
+    </a>
+    <a href="mockup.html#work" class="nav-back">Back to Work</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Case Study · 03</p>
+      <h1 class="hero-title">Ami<br /><span>Smart Assistant</span></h1>
+      <p class="hero-desc">A Masters major project — designing a smart virtual personal assistant that connects international students to their university, reducing complexity and creating a once-in-a-lifetime campus experience.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <h5>Type</h5>
+          <p>Masters Major Project</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Platform</h5>
+          <p>Mobile App</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Role</h5>
+          <p>Full UX · Research · Branding</p>
+        </div>
+        <div class="hero-meta-item">
+          <h5>Prototype</h5>
+          <p>Marvel App</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 · THE PROBLEM -->
+  <section id="problem">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">01 · The Problem</p>
+          <h2 class="section-title">Lost in a Large Campus</h2>
+          <div class="section-body">
+            <p>International students arriving at a large university for the first time face a system that was never designed with them in mind. The campus is vast, the information is scattered, and the social layer is invisible until it's too late.</p>
+            <p>The core problems: <strong>getting around campus</strong>, accessing the right information at the right time, discovering events and activities, feeling socially involved, and staying safe — all at once, all on day one.</p>
+            <p>Existing university apps addressed logistics, not experience. None of them felt like a friend. Ami was designed to.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&q=80" alt="Design Process" />
+          <div class="img-block-caption">Double diamond — Definition & Execution</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · CONTEXT & ROLE -->
+  <section id="context">
+    <div class="container reveal">
+      <p class="section-label">02 · Context & Role</p>
+      <h2 class="section-title">Every Part of the Process</h2>
+      <div class="section-body" style="margin-bottom: 56px;">
+        <p>This was a Masters major project — meaning there was no team to hand off to, no brief to follow, and no existing product to build on. The entire scope was self-directed, from identifying the right problem to shipping a final prototype.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h4>Problem Finding</h4>
+          <p>Identifying the right problem through research, observation, and user interviews with international students.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h4>Research & Ideation</h4>
+          <p>Exploring the solution space through node diagrams, scenario storyboards, and concept validation.</p>
+          <div class="step-bar"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h4>Branding & Prototype</h4>
+          <p>Mood boards, logo design, full branding system, and final high-fidelity prototype in Marvel App.</p>
+          <div class="step-bar"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 · STORYBOARDING -->
+  <section id="storyboards">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1558403194-611308249627?w=800&q=80" alt="Storyboarding" />
+          <div class="img-block-caption">Node diagrams and scenario storyboards</div>
+        </div>
+        <div>
+          <p class="section-label">03 · Storyboarding</p>
+          <h2 class="section-title">Finding Features Through Stories</h2>
+          <div class="section-body">
+            <p><strong>Node diagrams</strong> were used to find different features and identify user needs — mapping the connections between people, places, and information that international students had to navigate every day.</p>
+            <p>These provided the basis for scenario storyboards: hand-drawn narratives that explored specific moments in a student's journey — arriving on campus, finding a lecture hall, discovering a social event, asking for help at midnight.</p>
+            <p>Each storyboard was a hypothesis. Each one got tested before anything was built.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · SITE MAP -->
+  <section id="sitemap">
+    <div class="container">
+      <div class="two-col reveal">
+        <div>
+          <p class="section-label">04 · Site Map</p>
+          <h2 class="section-title">Mapping the Full App Architecture</h2>
+          <div class="section-body">
+            <p>Before wireframing a single screen, the full information architecture of Ami was mapped — from the Splash Screen through account creation, to the Home/Menu hub and every feature branch beyond it.</p>
+            <p>Key feature areas included: <strong>Services, Campus Map, Calendar, Courses/Study Room, and a Student Wall</strong> — each with their own sub-features covering university services, augmented map, academic materials, social sharing, and event invitations.</p>
+            <p>The site map ensured nothing was designed in isolation. Every screen had a logical home.</p>
+          </div>
+        </div>
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&q=80" alt="Site map" />
+          <div class="img-block-caption">Full app information architecture</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · LO-FI TO HI-FI -->
+  <section id="prototyping">
+    <div class="container reveal">
+      <p class="section-label">05 · Lo-Fi to Hi-Fi</p>
+      <h2 class="section-title">Testing Before Building</h2>
+      <div class="section-body" style="margin-bottom: 48px;">
+        <p><strong>Low-fidelity prototypes</strong> were used to carry out user testing sessions. Real feedback was collected and corresponding alterations were made — the app evolved through use, not assumption.</p>
+        <p>A Marvel prototype was created to understand user pain points in context. Participants interacted with tappable flows, revealing friction that static wireframes would never catch.</p>
+        <p><strong>High-fidelity prototyping</strong> then brought it all together — mood boards, logo design, brand system, and the final app interface. The visual identity was built to feel warm and intelligent: a smart friend, not a corporate tool.</p>
+      </div>
+
+      <div class="full-img">
+        <img src="https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?w=1400&q=80" alt="Design process" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · AR RESEARCH -->
+  <section id="ar">
+    <div class="container">
+      <div class="two-col two-col-reverse reveal">
+        <div class="img-block">
+          <img src="https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&q=80" alt="AR Research" />
+          <div class="img-block-caption">First exploration into augmented reality</div>
+        </div>
+        <div>
+          <p class="section-label">06 · AR Research</p>
+          <h2 class="section-title">Into the Unknown</h2>
+          <div class="section-body">
+            <p>Ami included a first deep dive into augmented reality — a developing technology that opened up possibilities far beyond a standard mobile interface.</p>
+            <p>AR was researched for its potential in: <strong>interactive 3D campus viewing, behaviour analytics, location-based content, event discovery</strong>, and social sharing between students. An augmented campus map was a core feature of the final concept.</p>
+            <p>This research sparked a lasting interest in AR/VR as a design medium — directly leading to the kind of immersive work later done with Radisson Hotel Group.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 · FINAL OUTCOME -->
+  <section id="outcome">
+    <div class="container reveal">
+      <p class="section-label">07 · Final Outcome</p>
+      <h2 class="section-title">A Smart Friend for Every Student</h2>
+      <div class="section-body" style="margin-bottom: 48px;">
+        <p>The final solution is a mobile app which acts as a <strong>smart assistant — a best friend forever</strong> — to the international student who is new to university and unfamiliar with the large ecosystem.</p>
+        <p>Ami doesn't just inform. It adapts, improvises, and overcomes — addressing three key problems: reducing campus complexity, acting as a personal assistant, and creating a once-in-a-lifetime experience both socially and academically.</p>
+        <p>Think of the campus as a large organism. Every student is an organ. For the organism to work, every organ must function well. Ami was built to make that happen.</p>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-box-num">3</div>
+          <div class="stat-box-label">Core problems solved</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num"><span>∞</span></div>
+          <div class="stat-box-label">Full end-to-end design process</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-num">AR<span>+</span></div>
+          <div class="stat-box-label">First AR/VR research & integration</div>
+        </div>
+      </div>
+
+      <div class="quote-block" style="margin-top: 64px;">
+        <blockquote>"Make the student get involved in the events, increase event attendance — make the whole campus a big organism and the student be one of its organs."</blockquote>
+        <cite>— Ami, Concept Statement</cite>
+      </div>
+
+      <div class="outcome-banner" style="margin-top: 64px;">
+        <h2>From Problem to Prototype — End to End</h2>
+        <p>A Masters major project covering every phase of UX: problem finding, research, ideation, storyboarding, lo-fi testing, branding, and high-fidelity delivery. Solo. From scratch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="next" style="background: var(--bg); padding: 80px 0;">
+    <div class="container reveal" style="text-align: center;">
+      <p class="section-label" style="justify-content: center;">What's Next</p>
+      <h2 class="section-title" style="margin-bottom: 16px;">Want to Work Together?</h2>
+      <p style="color: var(--text-muted); font-size: 16px; font-weight: 300; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto;">
+        If you have a product that needs to feel as intuitive as a good friend — let's talk.
+      </p>
+      <a href="mockup.html#contact" style="
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--accent); color: #fff;
+        font-family: var(--font-display); font-size: 16px;
+        letter-spacing: 0.12em; padding: 16px 40px;
+        text-decoration: none; border-radius: 5px;
+        transition: background 0.25s;
+      ">Get in Touch</a>
+      <span style="font-size: 12px; color: var(--text-muted); margin-top: 14px; display: block;">No commitment · Free first conversation · 24hr response</span>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p class="footer-copy">© 2024 <span>Anandu Sivan</span> — Interaction & UX Designer</p>
+      <a href="mockup.html#work" class="footer-cta">← Back to Work</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
