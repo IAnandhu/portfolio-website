@@ -383,8 +383,7 @@
       font-family: var(--font-display);
       font-size: clamp(38px, 7.5vw, 118px);
       color: var(--text);
-      text-align: right;
-      padding-right: calc(36% + 250px);
+      text-align: center;
       min-height: 1em;
       white-space: nowrap;
       line-height: 0.86;
@@ -392,28 +391,17 @@
       position: relative;
       z-index: 2;
       pointer-events: none;
-    }
-
-    .hero-line2 {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
+      display: flex;
       align-items: baseline;
-      padding: 0 4vw;
-      position: relative;
-      z-index: 20;
-      pointer-events: none;
+      justify-content: center;
+      gap: 0.15em;
+      transform: translateX(-150px);
+      padding-right: 600px;
     }
-    .hero-amp {
-      font-family: var(--font-display);
-      font-size: clamp(38px, 7.5vw, 118px);
-      color: var(--text);
-      line-height: 0.86;
-      grid-column: 2;
-      text-align: center;
-      position: relative;
-      z-index: 20;
-      transform: translateX(55px) translateY(-40px);
-      text-shadow: 0 0 40px rgba(0,0,0,1), 0 0 80px rgba(0,0,0,0.95), 0 0 120px rgba(0,0,0,0.9), 0 0 200px rgba(0,0,0,0.7);
+    .hero-typed {
+      display: inline-block;
+      min-width: 8.5em;
+      text-align: right;
     }
     .hero-role {
       font-family: var(--font-display);
@@ -421,9 +409,7 @@
       color: var(--accent);
       line-height: 0.86;
       letter-spacing: 0.02em;
-      grid-column: 3;
-      text-align: right;
-      padding-right: 90px;
+      flex-shrink: 0;
       text-shadow: 0 4px 20px rgba(0,0,0,0.7), 0 8px 40px rgba(0,0,0,0.4);
     }
 
@@ -1165,12 +1151,13 @@
     <a href="#" class="nav-logo">
       <div class="nav-logo-mark">AS</div>
     </a>
-    <div style="display:flex; align-items:center; gap:32px;">
+    <div style="display:flex; align-items:center; gap:16px;">
       <ul class="nav-links">
         <li><a href="#work">Work</a></li>
         <li><a href="#process">Process</a></li>
         <li><a href="#about">About</a></li>
       </ul>
+      <a href="inspiration/Anandu Sivan 1.pdf" download="Anandu Sivan CV.pdf" class="btn btn-ghost" style="transform:scale(0.75); transform-origin: right center;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download CV</a>
       <a href="#contact" class="btn btn-primary btn-arrow" style="transform:scale(0.75); transform-origin: right center;">Get in Touch</a>
     </div>
   </nav>
@@ -1204,11 +1191,7 @@
     <div class="hero-center">
       <div class="hero-text-wrap">
         <p class="hero-hello-label">Hello, I am &nbsp;·&nbsp; <span>Anandu Sivan</span></p>
-        <div class="hero-line1">INTERACTION</div>
-        <div class="hero-line2">
-          <span class="hero-amp">&amp;</span>
-          <span class="hero-role">UX DESIGNER</span>
-        </div>
+        <div class="hero-line1"><span class="hero-typed">INTERACTION</span><span class="hero-role">DESIGNER</span></div>
       </div>
 
       <div class="hero-sub-row">
@@ -1622,7 +1605,6 @@
       const els = [
         document.querySelector('.hero-name-label'),
         document.querySelector('.hero-line1'),
-        document.querySelector('.hero-line2'),
         document.querySelector('.hero-lady'),
         document.querySelector('.hero-sub-row'),
       ];
@@ -1638,11 +1620,11 @@
       });
     });
 
-    // Typewriter for hero-line1 — right-pinned, smooth
+    // Typewriter for hero-typed — right-pinned, smooth
     (function () {
-      const el = document.querySelector('.hero-line1');
+      const el = document.querySelector('.hero-typed');
       if (!el) return;
-      const words = ['INTERACTION', 'PRODUCT', 'EXPERIENCE', 'DIGITAL', 'CREATIVE'];
+      const words = ['INTERACTION', 'UI/UX', 'PRODUCT', 'EXPERIENCE', 'DIGITAL', 'ILLUSTRATION'];
       let wordIndex = 0, charIndex = 0, deleting = false;
 
       // Slight speed variation for natural feel
