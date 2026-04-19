@@ -1562,21 +1562,25 @@
         <p style="font-size:13px; color:var(--text-muted);">Prefer email? Use the address above.</p>
       </div>
       <div class="reveal">
-        <form class="contact-form" onsubmit="return false;">
+        <form class="contact-form" id="contact-form">
+          <input type="hidden" name="access_key" value="e593ca9e-3ad4-4c5a-b170-80950da16f5c" />
+          <input type="hidden" name="subject" value="New message from portfolio" />
+          <input type="checkbox" name="botcheck" style="display:none;" />
           <div class="form-group">
             <label for="name">Your Name</label>
-            <input type="text" id="name" name="name" placeholder="Alex Johnson" autocomplete="off" />
+            <input type="text" id="name" name="name" placeholder="Alex Johnson" autocomplete="off" required />
           </div>
           <div class="form-group">
             <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="alex@company.com" autocomplete="off" />
+            <input type="email" id="email" name="email" placeholder="alex@company.com" autocomplete="off" required />
           </div>
           <div class="form-group">
             <label for="message">What are you working on?</label>
-            <textarea id="message" name="message" placeholder="Tell me about the product, the problem, and what you're hoping to achieve..."></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about the product, the problem, and what you're hoping to achieve..." required></textarea>
           </div>
           <div class="form-submit">
-            <button type="submit" class="btn btn-primary btn-arrow" style="width:100%; justify-content:center;">Send Message</button>
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-arrow" style="width:100%; justify-content:center;">Send Message</button>
+            <span id="form-status" style="display:none; text-align:center; font-size:13px; margin-top:8px;"></span>
             <span class="fud" style="text-align:center;">I respond within 24 hours &nbsp;·&nbsp; No spam, no mailing list &nbsp;·&nbsp; No pressure</span>
           </div>
         </form>
@@ -1693,6 +1697,38 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       reveals.forEach(el => el.classList.add('visible'));
     }
+
+    // Contact form — Web3Forms
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const status = document.getElementById('form-status');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.style.display = 'none';
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(this),
+        });
+        const data = await res.json();
+        if (data.success) {
+          status.style.display = 'block';
+          status.style.color = 'var(--accent)';
+          status.textContent = 'Message sent! I\'ll be in touch within 24 hours.';
+          this.reset();
+        } else {
+          throw new Error(data.message);
+        }
+      } catch (err) {
+        status.style.display = 'block';
+        status.style.color = '#e05';
+        status.textContent = 'Something went wrong. Try emailing directly.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
+      }
+    });
   </script>
 </body>
 </html>
