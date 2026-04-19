@@ -881,6 +881,7 @@
       border-radius: 5px;
     }
     .process-step:hover { background: #1a1a1a; }
+    html[data-theme="light"] .process-step:hover { background: var(--bg-elevated); }
     .process-step-num {
       font-family: var(--font-display);
       font-size: 80px;
@@ -996,6 +997,57 @@
       color: var(--text-muted);
       letter-spacing: 0.04em;
     }
+
+    /* ══════════════════════════════════════════
+       CLIENTELE
+    ══════════════════════════════════════════ */
+    #clientele {
+      padding: 80px 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    #clientele .section-label {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .clientele-track-wrap {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    }
+    .clientele-track {
+      display: flex;
+      gap: 64px;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .clientele-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .clientele-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      height: 48px;
+      opacity: 0.55;
+      filter: brightness(0) invert(1);
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+    .clientele-logo:hover { opacity: 1; }
+    html[data-theme="light"] .clientele-logo { filter: grayscale(100%); opacity: 0.45; }
+    html[data-theme="light"] .clientele-logo:hover { filter: grayscale(0%); opacity: 1; }
+    .clientele-logo img {
+      max-height: 48px;
+      max-width: 140px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .clientele-logo img[alt="Barclays"] { max-height: 72px; max-width: 180px; }
 
     /* ══════════════════════════════════════════
        ABOUT
@@ -1576,6 +1628,31 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CLIENTELE ── -->
+  <section id="clientele">
+    <div class="container">
+      <p class="section-label">Clientele</p>
+    </div>
+    <div class="clientele-track-wrap">
+      <div class="clientele-track">
+        <!-- first set -->
+        <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
+        <!-- duplicate for seamless loop -->
+        <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
       </div>
     </div>
   </section>
