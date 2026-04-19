@@ -70,6 +70,16 @@
       overflow-x: hidden;
     }
 
+    /* View-transition: old theme stays below, new theme circle expands on top */
+    ::view-transition-old(root) {
+      animation: none;
+      z-index: 1;
+    }
+    ::view-transition-new(root) {
+      animation: none;
+      z-index: 9999;
+    }
+
     ::selection { background: var(--accent); color: #fff; }
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -537,53 +547,46 @@
       const saved = localStorage.getItem('theme');
       if (saved) html.setAttribute('data-theme', saved);
 
-      function waterWipe(nextTheme) {
-        const canvas = document.createElement('canvas');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        canvas.style.cssText = 'position:fixed;top:0;left:0;z-index:9999;pointer-events:none;';
-        document.body.appendChild(canvas);
-        const ctx = canvas.getContext('2d');
-        const oldBg = nextTheme === 'light' ? '#080808' : '#ffffff';
-        const duration = 1300;
-        let t0 = null;
-
+      function switchTheme(nextTheme) {
         const rect = btn.getBoundingClientRect();
-        const ox = rect.left + rect.width / 2;
-        const oy = rect.top + rect.height / 2;
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
         const maxR = Math.hypot(
-          Math.max(ox, canvas.width - ox),
-          Math.max(oy, canvas.height - oy)
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
         );
 
-        html.setAttribute('data-theme', nextTheme);
-        localStorage.setItem('theme', nextTheme);
-
-        function ease(t) { return 1 - Math.pow(1 - t, 3); }
-
-        function frame(ts) {
-          if (!t0) t0 = ts;
-          const p = Math.min((ts - t0) / duration, 1);
-          const r = ease(p) * maxR;
-          ctx.globalCompositeOperation = 'source-over';
-          ctx.fillStyle = oldBg;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.globalCompositeOperation = 'destination-out';
-          ctx.beginPath();
-          ctx.arc(ox, oy, r, 0, Math.PI * 2);
-          ctx.fill();
-          if (p < 1) {
-            requestAnimationFrame(frame);
-          } else {
-            canvas.remove();
-          }
+        if (!document.startViewTransition) {
+          html.setAttribute('data-theme', nextTheme);
+          localStorage.setItem('theme', nextTheme);
+          return;
         }
-        requestAnimationFrame(frame);
+
+        const transition = document.startViewTransition(() => {
+          html.setAttribute('data-theme', nextTheme);
+          localStorage.setItem('theme', nextTheme);
+        });
+
+        transition.ready.then(() => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${maxR}px at ${x}px ${y}px)`
+              ]
+            },
+            {
+              duration: 700,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              pseudoElement: '::view-transition-new(root)'
+            }
+          );
+        });
       }
 
       btn.addEventListener('click', () => {
         const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        waterWipe(next);
+        switchTheme(next);
       });
     })();
   </script>
