@@ -999,7 +999,7 @@
     }
 
     /* ══════════════════════════════════════════
-       CLIENTELE
+       PROJECTS WORKED WITH
     ══════════════════════════════════════════ */
     #clientele {
       padding: 80px 0;
@@ -1010,6 +1010,15 @@
     #clientele .section-label {
       text-align: center;
       margin-bottom: 48px;
+    }
+    .clientele-more {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0.5;
     }
     .clientele-track-wrap {
       overflow: hidden;
@@ -1025,7 +1034,7 @@
     .clientele-track:hover { animation-play-state: paused; }
     @keyframes marquee {
       from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      to   { transform: translateX(-25%); }
     }
     .clientele-logo {
       display: flex;
@@ -1040,6 +1049,8 @@
     .clientele-logo:hover { opacity: 1; }
     html[data-theme="light"] .clientele-logo { filter: grayscale(100%); opacity: 0.45; }
     html[data-theme="light"] .clientele-logo:hover { filter: grayscale(0%); opacity: 1; }
+    html[data-theme="light"] .clientele-logo img[alt="Iconic"] { filter: brightness(0); }
+    html[data-theme="light"] .clientele-logo:hover img[alt="Iconic"] { filter: brightness(0); }
     .clientele-logo img {
       max-height: 48px;
       max-width: 140px;
@@ -1632,29 +1643,48 @@
     </div>
   </section>
 
-  <!-- ── CLIENTELE ── -->
+  <!-- ── PROJECTS WORKED WITH ── -->
   <section id="clientele">
     <div class="container">
-      <p class="section-label">Clientele</p>
+      <p class="section-label">Projects Worked With</p>
     </div>
     <div class="clientele-track-wrap">
       <div class="clientele-track">
-        <!-- first set -->
+        <!-- set 1 -->
         <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
-        <!-- duplicate for seamless loop -->
+        <div class="clientele-logo"><img src="inspiration/clientile/dubai.png" alt="Dubai" /></div>
+        <!-- set 2 -->
         <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
         <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/dubai.png" alt="Dubai" /></div>
+        <!-- set 3 -->
+        <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/dubai.png" alt="Dubai" /></div>
+        <!-- set 4 (seamless loop anchor) -->
+        <div class="clientele-logo"><img src="inspiration/clientile/Radisson_Hotels_logo.svg" alt="Radisson Hotels" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Barclays-Logo.svg.png" alt="Barclays" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/HMRC-Logo.png" alt="HMRC" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/Mobomo.png" alt="Mobomo" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/innolance.png" alt="Innolance" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/iconic.png" alt="Iconic" /></div>
+        <div class="clientele-logo"><img src="inspiration/clientile/dubai.png" alt="Dubai" /></div>
       </div>
     </div>
+    <p class="clientele-more">and more…</p>
   </section>
 
   <!-- ── ABOUT ── -->
