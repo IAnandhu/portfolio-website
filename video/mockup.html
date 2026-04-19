@@ -21,6 +21,9 @@
       --accent:       #E8000D;
       --accent-dark:  #A80009;
       --border:       #1C1C1C;
+      --nav-grad:     rgba(8,8,8,0.92);
+      --hero-grad:    rgba(8,8,8,0.9);
+      color-scheme: dark;
       --font-display: 'Bebas Neue', sans-serif;
       --font-heading: 'Bebas Neue', sans-serif;
       --font-body:    'Outfit', sans-serif;
@@ -37,6 +40,77 @@
       line-height: 1.6;
       overflow-x: hidden;
     }
+
+    html[data-theme="light"] {
+      --bg:           #ffffff;
+      --bg-elevated:  #F2F2F2;
+      --bg-card:      #E8E8E8;
+      --text:         #111111;
+      --text-muted:   #666666;
+      --text-dim:     #AAAAAA;
+      --border:       #D8D8D8;
+      --nav-grad:     rgba(255,255,255,0.95);
+      --hero-grad:    rgba(255,255,255,0.9);
+      color-scheme: light;
+    }
+    html[data-theme="light"] nav::before {
+      background: linear-gradient(to bottom, var(--nav-grad) 0%, transparent 100%);
+    }
+    html[data-theme="light"] .hero-logos::before {
+      background: linear-gradient(to top, var(--hero-grad) 0%, transparent 100%);
+    }
+    html[data-theme="light"] #hero {
+      background-color: var(--bg);
+      background-image: none;
+    }
+    html[data-theme="light"] .hero-logos-row img {
+      filter: brightness(0);
+      opacity: 0.65;
+    }
+    html[data-theme="light"] .logo-text {
+      color: var(--text);
+      opacity: 0.7;
+    }
+    html[data-theme="light"] .hero-lady img {
+      filter: grayscale(100%) contrast(1.1) brightness(1.1);
+      opacity: 0.35;
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,0.5) 30%, black 42%, black 80%, transparent 100%),
+                          linear-gradient(to bottom, transparent 0%, black 24%, black 92.3%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image: linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,0.5) 30%, black 42%, black 80%, transparent 100%),
+                  linear-gradient(to bottom, transparent 0%, black 24%, black 92.3%, transparent 100%);
+      mask-composite: intersect;
+    }
+    html[data-theme="light"] .hero-role {
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    html[data-theme="light"] .about-img::before {
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(236,234,228,0.5) 70%, rgba(236,234,228,0.85) 100%);
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      flex-shrink: 0;
+    }
+    .theme-toggle { color: #ffffff; }
+    .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    html[data-theme="light"] .theme-toggle { color: var(--text-muted); }
+    .theme-toggle svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-sun { display: none; }
+    .icon-moon { display: block; }
+    html[data-theme="light"] .icon-sun { display: block; }
+    html[data-theme="light"] .icon-moon { display: none; }
 
     ::selection { background: var(--accent); color: #fff; }
 
@@ -116,7 +190,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, transparent 100%);
+      background: linear-gradient(to top, var(--hero-grad) 0%, transparent 100%);
       z-index: -1;
     }
     .hero-logos-label {
@@ -187,7 +261,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to bottom, rgba(8,8,8,0.9) 0%, transparent 100%);
+      background: linear-gradient(to bottom, var(--nav-grad) 0%, transparent 100%);
       pointer-events: none;
     }
     .nav-logo {
@@ -1160,9 +1234,15 @@
 
   <!-- ── NAV ── -->
   <nav>
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-mark">AS</div>
-    </a>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-mark">AS</div>
+      </a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
     <div style="display:flex; align-items:center; gap:16px;">
       <ul class="nav-links">
         <li><a href="#work">Work</a></li>
@@ -1697,6 +1777,19 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       reveals.forEach(el => el.classList.add('visible'));
     }
+
+    // Light/dark theme toggle
+    (function () {
+      const html = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const saved = localStorage.getItem('theme');
+      if (saved) html.setAttribute('data-theme', saved);
+      btn.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
 
     // Contact form — Web3Forms
     document.getElementById('contact-form').addEventListener('submit', async function (e) {
