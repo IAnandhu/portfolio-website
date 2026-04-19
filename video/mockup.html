@@ -306,6 +306,15 @@
       gap: 40px;
       list-style: none;
       position: relative;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .nav-links.nav-links-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
     }
     .nav-links a {
       font-family: var(--font-display);
@@ -1278,7 +1287,7 @@
     @media (max-width: 768px) {
       .container { padding: 0 24px; }
       nav { padding: 20px 24px; }
-      .nav-links { display: none; }
+      .nav-links, .nav-links.nav-links-visible { display: none; }
       .hero-social { display: none; }
       .hero-scroll { display: none; }
       .hero-hello-label { text-align: center; padding-left: 0; width: 100%; }
@@ -1880,6 +1889,19 @@
       }
 
       setTimeout(tick, 1000);               // start after entrance settles
+    })();
+
+    // Show nav links only when hero-bottom scrolls out of view
+    (function () {
+      const navLinks = document.querySelector('.nav-links');
+      const heroBottom = document.querySelector('.hero-bottom');
+      if (!navLinks || !heroBottom) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          navLinks.classList.toggle('nav-links-visible', !entry.isIntersecting);
+        });
+      }, { threshold: 0 });
+      obs.observe(heroBottom);
     })();
 
     // Active nav highlight on scroll
