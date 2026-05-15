@@ -511,10 +511,20 @@
     .hero-lady {
       position: absolute;
       bottom: 38px;
-      left: calc(46% - 101px);
+      left: calc(52% - 101px);
       transform: translateX(-50%);
-      height: 76vh;
+      height: 64.6vh;
       z-index: 5;
+      pointer-events: none;
+    }
+    .hero-lady::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 2%;
+      width: 25%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, #080808);
       pointer-events: none;
     }
     .hero-lady img {
@@ -523,7 +533,7 @@
       object-fit: contain;
       display: block;
       filter: grayscale(100%) contrast(1.2) brightness(0.9);
-      clip-path: inset(0 155px 20px 0);
+      clip-path: inset(0 2% 3% 0);
       opacity: 0.55;
       -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,0.5) 30%, black 42%, black 80%, transparent 100%),
                           linear-gradient(to bottom, transparent 0%, black 5.3%, black 92.3%, transparent 100%);
@@ -1268,6 +1278,7 @@
       .hero-sub-row { padding: 0 7vw; }
       .hero-line1 { transform: translateX(-60px); padding-right: 260px; }
       .hero-typed { min-width: 6em; }
+      .hero-lady { height: 65vh; }
       .hero-logos { padding: 20px 40px 20px 40px; }
       .hero-logos-row { justify-content: flex-start; gap: 24px; }
       #pain .container,
@@ -1291,7 +1302,8 @@
       .hero-social { display: none; }
       .hero-scroll { display: none; }
       .hero-hello-label { text-align: center; padding-left: 0; width: 100%; }
-      .hero-lady { height: 52vh; bottom: 150px; }
+      .hero-lady { height: 52vh; bottom: 150px; left: 50%; }
+      .hero-lady img { clip-path: inset(0 15% 3% 0); }
       .hero-line1 { transform: none; padding-right: 0; white-space: normal; justify-content: center; flex-wrap: wrap; }
       .hero-typed { min-width: unset; text-align: center; }
       .hero-logos { padding: 16px 24px; bottom: 150px; }
@@ -1310,6 +1322,11 @@
       .process-grid { grid-template-columns: 1fr; }
       .case-detail { grid-template-columns: 1fr; }
       .case-content { padding: 32px 28px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-lady { height: 38vh; bottom: 120px; left: 50%; }
+      .hero-lady img { clip-path: inset(0 8% 3% 0); }
     }
   </style>
 </head>
@@ -1378,7 +1395,7 @@
 
     <!-- Lady anchored to full hero section, not text-wrap -->
     <div class="hero-lady">
-      <img src="inspiration/me3.png" alt="Anandu Sivan" />
+      <img src="inspiration/me.png" alt="Anandu Sivan" />
     </div>
 
     <div class="hero-logos">
